@@ -1,6 +1,390 @@
-body {
-    font-family: Arial, sans-serif;
+/* --- Variables & Basic Setup --- */
+:root {
+    --color-black: #050505;          /* Deep black */
+    --color-dark-bg: #1a1a1a;      /* Slightly lighter dark */
+    --color-light-blue: #00f0ff;   /* Vibrant cyan/light blue */
+    --color-glow: rgba(0, 240, 255, 0.7); /* Glow effect color */
+    --color-text: #e0e0e0;         /* Light grey text */
+    --color-text-darker: #aaaaaa;  /* Darker grey text */
+    --header-height: 70px;
+    --glow-blur: 15px;
+    --glow-spread: 3px;
+}
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    background-color: var(--color-black);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* --- Header General Styling --- */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: var(--header-height);
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(5, 5, 5, 0.9) 100%); /* Subtle gradient */
+    border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+    box-shadow: 0 2px var(--glow-blur) rgba(0, 240, 255, 0.2);
+    position: sticky; /* Make header stick */
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Frosted glass effect */
+}
+
+/* --- Logo Styling --- */
+.logo-container {
+    flex-shrink: 0; /* Prevent logo from shrinking */
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-light-blue);
+    text-decoration: none;
+    text-shadow:
+        0 0 5px var(--color-glow),
+        0 0 10px var(--color-glow),
+        0 0 20px var(--color-light-blue),
+        0 0 30px var(--color-light-blue);
+    letter-spacing: 1px;
+    animation: flicker 3s infinite alternate; /* Subtle flicker */
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow:
+        0 0 4px var(--color-glow),
+        0 0 8px var(--color-glow),
+        0 0 15px var(--color-light-blue),
+        0 0 25px var(--color-light-blue); }
+  20%, 24%, 55% { text-shadow: none; }
+}
+
+
+/* --- Desktop Navigation --- */
+.desktop-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem; /* Space between links */
+}
+
+.desktop-nav a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.desktop-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-light-blue);
+    box-shadow: 0 0 8px var(--color-glow);
+    transition: width 0.4s ease-out;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active {
+    color: var(--color-light-blue);
+    text-shadow: 0 0 8px var(--color-glow);
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+    width: 100%;
+}
+
+/* --- Header Right Side (Search, Cart, Hamburger) --- */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Space between icons/search */
+}
+
+/* --- Search Bar --- */
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(26, 26, 26, 0.7); /* Dark input background */
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 50px; /* Pill shape */
+    padding: 0.3rem 0.3rem 0.3rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+.search-container:focus-within {
+    border-color: var(--color-light-blue);
+    box-shadow: 0 0 10px var(--color-glow);
+}
+
+#search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    width: 150px; /* Initial width */
+    transition: width 0.3s ease;
+}
+
+#search-input::placeholder {
+    color: var(--color-text-darker);
+    opacity: 0.7;
+}
+
+#search-input:focus {
+    width: 200px; /* Expand on focus */
+}
+
+.search-button {
+    background-color: var(--color-light-blue);
+    border: none;
+    color: var(--color-black);
+    border-radius: 50%; /* Circle button */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 8px var(--color-glow);
+}
+
+.search-button:hover {
+    background-color: #fff; /* Brighten on hover */
+    box-shadow: 0 0 15px var(--color-glow);
+}
+
+.search-button i {
+    font-size: 0.9rem;
+}
+
+/* --- Cart Icon --- */
+.cart-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-icon {
+    font-size: 1.6rem;
+    color: var(--color-text);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.cart-icon:hover {
+    color: var(--color-light-blue);
+    text-shadow: 0 0 10px var(--color-glow);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: var(--color-light-blue);
+    color: var(--color-black);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--color-black);
+    box-shadow: 0 0 8px var(--color-glow);
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 8px var(--color-glow); }
+  50% { transform: scale(1.1); box-shadow: 0 0 15px var(--color-glow); }
+  100% { transform: scale(1); box-shadow: 0 0 8px var(--color-glow); }
+}
+
+
+/* --- Hamburger Menu --- */
+.hamburger-menu {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1010; /* Above mobile nav */
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-light-blue);
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Funky transition */
+    box-shadow: 0 0 5px var(--color-glow);
+}
+
+/* Hamburger animation ("X" shape when active) */
+.hamburger-menu.active span:nth-child(1) {
+    transform: translateY(9px) rotate(135deg);
+}
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+.hamburger-menu.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-135deg);
+}
+
+/* --- Mobile Navigation --- */
+.mobile-nav {
+    display: none; /* Hidden initially */
+    position: absolute;
+    top: var(--header-height); /* Position below header */
+    left: 0;
+    width: 100%;
+    background-color: rgba(5, 5, 5, 0.98); /* Almost opaque dark */
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 240, 255, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 240, 255, 0.15);
+    padding: 1rem 0;
+    transform: translateY(-100%); /* Start off-screen */
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease; /* Smooth slide + fade */
+    z-index: 999; /* Below header but above content */
+}
+
+.mobile-nav.active {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.mobile-nav ul {
+    list-style: none;
     text-align: center;
+}
+
+.mobile-nav li {
+    margin: 1.8rem 0;
+}
+
+.mobile-nav a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    display: block;
+    transition: color 0.3s ease, background-color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active {
+    color: var(--color-light-blue);
+    background-color: rgba(0, 240, 255, 0.1); /* Subtle glow background */
+    text-shadow: 0 0 10px var(--color-glow);
+}
+
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 992px) {
+    /* Adjust spacing for tablets */
+    .desktop-nav ul {
+        gap: 1.5rem;
+    }
+    .logo {
+        font-size: 1.6rem;
+    }
+    .header-right {
+        gap: 1rem;
+    }
+    #search-input {
+        width: 120px;
+    }
+     #search-input:focus {
+        width: 150px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    /* Mobile view */
+    .site-header {
+        padding: 0 1rem; /* Reduce padding */
+    }
+
+    .desktop-nav {
+        display: none; /* Hide desktop nav */
+    }
+
+    .hamburger-menu {
+        display: flex; /* Show hamburger */
+    }
+
+    /* Optional: Hide search on very small screens or keep it */
+    .search-container {
+       /* Maybe make it smaller or hide completely if needed */
+       /* display: none; */
+        padding: 0.2rem 0.2rem 0.2rem 0.8rem;
+    }
+     #search-input {
+        width: 100px; /* Further reduce size */
+    }
+     #search-input:focus {
+        width: 130px;
+    }
+     .search-button {
+        width: 28px;
+        height: 28px;
+    }
+     .search-button i {
+        font-size: 0.8rem;
+    }
+
+    .cart-icon {
+        font-size: 1.4rem;
+    }
+    .cart-badge {
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
+        top: -6px;
+        right: -8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.4rem;
+    }
+    /* Maybe hide search completely on smallest screens */
+     .search-container {
+        display: none;
+     }
+     .header-right {
+         gap: 0.8rem; /* Reduce gap even more */
+     }
 }
