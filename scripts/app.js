@@ -136,6 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.title = `${product.title} - DarkByte`;
 
+        // Generate size options based on product category
+        const availableSizes = {
+            'men\'s clothing': ['S', 'M', 'L', 'XL', 'XXL'],
+            'women\'s clothing': ['XS', 'S', 'M', 'L', 'XL'],
+            'jewelery': ['One Size'],
+            'electronics': ['Standard']
+        };
+
+        const sizes = availableSizes[product.category] || ['Standard'];
+        
         productDetailContainer.innerHTML = `
             <div class="product-detail-image-container">
                 <img src="${product.image}" alt="${product.title}" class="product-detail-image" loading="lazy">
@@ -145,13 +155,99 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="product-detail-price">₹${convertToINR(product.price)}</p>
                 <p class="product-detail-category"><strong>Category:</strong> ${product.category}</p>
                 <p class="product-detail-description">${product.description}</p>
+                
+                <div class="product-variations">
+                    <div class="variation-group">
+                        <label for="size-select">Size:</label>
+                        <div class="size-options">
+                            ${sizes.map(size => `
+                                <button class="size-option" data-size="${size}">${size}</button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" id="decrease-quantity">-</button>
+                        <input type="number" id="quantity" value="1" min="1" max="10">
+                        <button class="quantity-btn" id="increase-quantity">+</button>
+                    </div>
+                </div>
+
+                <div class="total-price">
+                    <span>Total: </span>
+                    <span id="total-price">₹${convertToINR(product.price)}</span>
+                </div>
+
                 <button class="product-detail-add-to-cart" data-product-id="${product.id}">Add to Cart</button>
             </div>
         `;
 
+        // Add event listeners for quantity controls
+        const quantityInput = productDetailContainer.querySelector('#quantity');
+        const decreaseBtn = productDetailContainer.querySelector('#decrease-quantity');
+        const increaseBtn = productDetailContainer.querySelector('#increase-quantity');
+        const totalPriceElement = productDetailContainer.querySelector('#total-price');
+        const sizeOptionButtons = productDetailContainer.querySelectorAll('.size-option');
+
+        let selectedSize = null;
+
+        // Handle quantity changes
+        const updateTotalPrice = () => {
+            const quantity = parseInt(quantityInput.value);
+            const total = (product.price * quantity * usdToInrRate).toFixed(2);
+            totalPriceElement.textContent = `₹${total}`;
+        };
+
+        decreaseBtn.addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+                updateTotalPrice();
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue < 10) {
+                quantityInput.value = currentValue + 1;
+                updateTotalPrice();
+            }
+        });
+
+        quantityInput.addEventListener('change', () => {
+            let value = parseInt(quantityInput.value);
+            if (isNaN(value) || value < 1) value = 1;
+            if (value > 10) value = 10;
+            quantityInput.value = value;
+            updateTotalPrice();
+        });
+
+        // Handle size selection
+        sizeOptionButtons.forEach(option => {
+            option.addEventListener('click', () => {
+                sizeOptionButtons.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedSize = option.dataset.size;
+            });
+        });
+
+        // Select first size by default
+        if (sizeOptionButtons.length > 0) {
+            sizeOptionButtons[0].click();
+        }
+
         const detailButton = productDetailContainer.querySelector('.product-detail-add-to-cart');
         if(detailButton) {
-            detailButton.addEventListener('click', () => addToCart(product.id, detailButton));
+            detailButton.addEventListener('click', () => {
+                if (!selectedSize) {
+                    alert('Please select a size');
+                    return;
+                }
+                addToCart(product.id, detailButton);
+            });
         }
     };
 
