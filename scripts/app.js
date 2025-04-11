@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveCart = () => {
         localStorage.setItem('darkbyte-cart', JSON.stringify(cart));
+        updateCartBadge();
     };
 
     const setTheme = (theme) => {
@@ -29,28 +30,75 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateCartBadge = () => {
         if (cartBadge) {
-            const cartItemCount = cart.length;
-            cartBadge.textContent = cartItemCount;
-            cartBadge.style.display = cartItemCount > 0 ? 'flex' : 'none';
-             if (cartItemCount > 0 && !cartBadge.classList.contains('active-pulse')) {
-                 cartBadge.classList.add('active-pulse');
-                 setTimeout(() => cartBadge.classList.remove('active-pulse'), 300);
-             }
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+            cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+            if (totalItems > 0 && !cartBadge.classList.contains('active-pulse')) {
+                cartBadge.classList.add('active-pulse');
+                setTimeout(() => cartBadge.classList.remove('active-pulse'), 300);
+            }
         }
     };
 
-    const addToCart = (productId, buttonElement) => {
-        console.log(`Adding product ${productId} to cart.`);
-        cart.push(productId);
+    const addToCart = (product, quantity, size, buttonElement) => {
+        // Check if product already exists in cart with same size
+        const existingItemIndex = cart.findIndex(
+            item => item.id === product.id && item.size === size
+        );
+
+        // Convert price to INR before adding to cart
+        const priceInINR = convertToINR(product.price);
+
+        if (existingItemIndex !== -1) {
+            // Update quantity if product exists
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            // Add new item to cart with INR price
+            cart.push({
+                id: product.id,
+                title: product.title,
+                price: priceInINR, // Use the converted INR price
+                image: product.image,
+                quantity: quantity,
+                size: size
+            });
+        }
+
         saveCart();
-        updateCartBadge();
+        showAddToCartFeedback(buttonElement);
+    };
+
+    const showAddToCartFeedback = (buttonElement) => {
         if (buttonElement) {
+            const originalText = buttonElement.textContent;
             buttonElement.textContent = 'Added!';
             buttonElement.disabled = true;
+            buttonElement.classList.add('added-to-cart');
+
+            // Create and show feedback message
+            const feedbackMessage = document.createElement('div');
+            feedbackMessage.className = 'cart-feedback-message';
+            feedbackMessage.textContent = 'Item added to cart!';
+            document.body.appendChild(feedbackMessage);
+
+            // Animate feedback message
             setTimeout(() => {
-                buttonElement.textContent = 'Add to Cart';
+                feedbackMessage.classList.add('show');
+            }, 10);
+
+            // Remove feedback message and reset button
+            setTimeout(() => {
+                feedbackMessage.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(feedbackMessage);
+                }, 300);
+            }, 2000);
+
+            setTimeout(() => {
+                buttonElement.textContent = originalText;
                 buttonElement.disabled = false;
-            }, 1000);
+                buttonElement.classList.remove('added-to-cart');
+            }, 2000);
         }
     };
 
@@ -121,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                addToCart(product.id, button);
+                addToCart(product, 1, null, button);
             });
 
             card.appendChild(link);
@@ -246,7 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Please select a size');
                     return;
                 }
-                addToCart(product.id, detailButton);
+                const quantity = parseInt(quantityInput.value);
+                addToCart(product, quantity, selectedSize, detailButton);
             });
         }
     };
@@ -405,6 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentId < 20) {
                 window.location.href = `product.html?id=${currentId + 1}`;
             }
+        });
+    }
+
+    // Cart icon click handler
+    const cartIcon = document.querySelector('.cart-icon');
+    if (cartIcon) {
+        cartIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'cart.html';
         });
     }
 

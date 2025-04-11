@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart - DarkByte</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo-container">
+        <a href="index.html" class="logo">DarkByte</a>
+      </div>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#products">Products</a></li>
+          <li><a href="cart.html" class="active">Cart</a></li>
+        </ul>
+      </nav>
+      <div class="header-right">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search products..."
+          />
+          <button class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div class="cart-container">
+          <a href="cart.html">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-badge">0</span>
+          </a>
+        </div>
+        <button class="theme-toggle-button" id="theme-toggle">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="hamburger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <nav class="mobile-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="cart.html" class="active">Cart</a></li>
+      </ul>
+    </nav>
+
+    <main class="cart-page">
+      <div class="cart-container">
+        <h1 class="cart-title">Your Cart</h1>
+
+        <div class="cart-items-container">
+          <!-- Cart items will be dynamically inserted here -->
+        </div>
+
+        <div class="cart-summary">
+          <div class="cart-total">
+            <span>Total:</span>
+            <span class="total-price">₹0.00</span>
+          </div>
+          <div class="cart-actions">
+            <a href="index.html" class="continue-shopping-btn">
+              <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
+            <button class="checkout-btn" disabled>
+              Proceed to Checkout <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <button id="back-to-top-btn" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/cart.js"></script>
+  </body>
+</html>
