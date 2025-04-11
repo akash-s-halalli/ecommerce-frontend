@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E - Commercce Website</title>
+    <title>DarkByte</title>
     <link rel="stylesheet" href="styles/main.css">
-    <!-- Link Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Optional: Google Font (e.g., Orbitron for a futuristic look) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
@@ -15,13 +13,10 @@
 <body>
 
     <header class="site-header">
-        <!-- Logo -->
         <div class="logo-container">
-             <a href="#" class="logo">CraxyGlow</a>
-             <!-- Or use an image: <img src="path/to/your/logo.png" alt="CraxyGlow Logo" class="logo-img"> -->
+             <a href="#" class="logo">DarkByte</a>
         </div>
 
-        <!-- Desktop Navigation -->
         <nav class="desktop-nav">
             <ul>
                 <li><a href="#" class="active">Home</a></li>
@@ -31,23 +26,25 @@
             </ul>
         </nav>
 
-        <!-- Right Side Elements -->
         <div class="header-right">
-            <!-- Search Bar -->
             <div class="search-container">
-                <input type="search" id="search-input" placeholder="Search the void...">
+                <input type="search" id="search-input" placeholder="Search gear...">
                 <button class="search-button" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
 
-            <!-- Shopping Cart -->
             <div class="cart-container">
-                <i class="fas fa-shopping-cart cart-icon"></i>
-                <span class="cart-badge">3</span>
+                <a href="#" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-cart cart-icon"></i>
+                    <span class="cart-badge">3</span>
+                 </a>
             </div>
 
-            <!-- Hamburger Menu (Mobile) -->
+            <button class="theme-toggle-button" id="theme-toggle" aria-label="Toggle Theme">
+                <i class="fas fa-sun"></i>
+            </button>
+
             <button class="hamburger-menu" aria-label="Toggle Menu" aria-expanded="false">
                 <span></span>
                 <span></span>
@@ -55,7 +52,6 @@
             </button>
         </div>
 
-        <!-- Mobile Navigation (Initially Hidden) -->
         <nav class="mobile-nav">
              <ul>
                 <li><a href="#" class="active">Home</a></li>
@@ -66,9 +62,19 @@
         </nav>
     </header>
 
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-heading">Forge Your Digital Edge</h1>
+            <p class="hero-subheading">
+                Explore our curated collection of high-performance tech & gear.
+            </p>
+            <a href="#products" class="cta-button">Shop Collection</a>
+        </div>
+    </section>
+
     <main>
-        <!-- Your main page content goes here -->
-        <h1 style="text-align: center; margin-top: 50px; color: #eee;">Main Content Area</h1>
+        <h1 id="products" style="text-align: center; margin-top: 50px; color: var(--color-text);">Product Listings Start Here</h1>
+        <div style="height: 100vh;"></div>
     </main>
 
     <script src="scripts/app.js"></script>
