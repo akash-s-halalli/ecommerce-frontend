@@ -20,7 +20,7 @@
         <nav class="desktop-nav">
             <ul>
                 <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="#products">All Products</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -28,7 +28,7 @@
 
         <div class="header-right">
             <div class="search-container">
-                <input type="search" id="search-input" placeholder="Search gear...">
+                <input type="search" id="search-input" placeholder="Search products...">
                 <button class="search-button" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </button>
@@ -37,7 +37,7 @@
             <div class="cart-container">
                 <a href="#" aria-label="Shopping Cart">
                     <i class="fas fa-shopping-cart cart-icon"></i>
-                    <span class="cart-badge">3</span>
+                    <span class="cart-badge">0</span>
                  </a>
             </div>
 
@@ -55,7 +55,7 @@
         <nav class="mobile-nav">
              <ul>
                 <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="#products">All Products</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -64,18 +64,27 @@
 
     <section class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-heading">Forge Your Digital Edge</h1>
+            <h1 class="hero-heading">Explore Our Collection</h1>
             <p class="hero-subheading">
-                Explore our curated collection of high-performance tech & gear.
+                Discover the latest trends and essentials in our store.
             </p>
-            <a href="#products" class="cta-button">Shop Collection</a>
+            <a href="#products" class="cta-button">Shop All Products</a>
         </div>
     </section>
 
     <main>
-        <h1 id="products" style="text-align: center; margin-top: 50px; color: var(--color-text);">Product Listings Start Here</h1>
-        <div style="height: 100vh;"></div>
+        <section id="products" class="product-grid-section">
+            <h2 class="section-heading">Featured Collection</h2>
+            <div class="product-grid-container">
+                </div>
+        </section>
+
+        <div style="height: 50vh;"></div>
     </main>
+
+    <button id="back-to-top-btn" aria-label="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script src="scripts/app.js"></script>
 </body>
